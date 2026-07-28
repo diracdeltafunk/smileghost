@@ -1,5 +1,7 @@
 # smileghost
 
+<img width="78" height="78" alt="image" src="https://github.com/user-attachments/assets/1f02dff9-5469-4508-8515-215e5f099c11" />
+
 `smileghost` provides a smiling ghost symbol for LaTeX:
 
 ```tex

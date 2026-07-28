@@ -1,0 +1,13 @@
+/build/
+/tmp/
+
+*.aux
+*.dvi
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.ps
+*.synctex.gz
+.DS_Store
+*.pdf

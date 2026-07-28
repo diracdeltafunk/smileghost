@@ -1,0 +1,104 @@
+%%
+%% smileghost.sty
+%% A smiling ghost math operator for LaTeX
+%%
+%% Copyright (C) 2026 Ben Spitz
+%%
+%% This work may be distributed and/or modified under the conditions of
+%% the LaTeX Project Public License, either version 1.3c of this license
+%% or (at your option) any later version.  The latest version of this
+%% license is available at
+%%
+%%   https://www.latex-project.org/lppl.txt
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%% The Current Maintainer of this work is Ben Spitz.
+%%
+\NeedsTeXFormat{LaTeX2e}[2018/04/01]
+\ProvidesPackage{smileghost}
+[2026/07/27 v1.0.0 A smiling ghost math operator]
+
+\RequirePackage{pict2e}[2020/09/30]
+
+\makeatletter
+
+\newsavebox\smileghost@measurebox
+\newdimen\smileghost@unit
+\newdimen\smileghost@raise
+
+% Draw the source artwork in a 360 bp by 392.327 bp coordinate system.
+% The path coordinates come from original Adobe Illustrator artwork.
+% The resulting height is 1.4 times the height of a zero in the current
+% math style.
+\newcommand*\smileghost@draw[1]{%
+  \begingroup
+  \sbox\smileghost@measurebox{$#1 0$}%
+  \smileghost@unit=\ht\smileghost@measurebox
+  \multiply\smileghost@unit by 7
+  \divide\smileghost@unit by 5
+  % Dividing by 392 rather than multiplying first avoids dimension
+  % overflow in unusually large math fonts.  The 0.327 bp difference
+  % from the source artboard is below one part in a thousand.
+  \divide\smileghost@unit by 392
+  \setlength\unitlength{\smileghost@unit}%
+  \begin{picture}(360,392.327)(0,0)
+    \linethickness{10\unitlength}%
+    \buttcap
+    \miterjoin
+    % Body and scalloped hem.
+    \moveto(182.626,387.323)
+    \curveto(108.931,387.959)(5.00039,308.916)(5.00039,55.0004)
+    \curveto(5.00039,27.3855)(27.3852,5.00039)(55.0004,5.00039)
+    \curveto(72.3953,5.00039)(87.7102,13.8875)(96.6664,27.3652)
+    \curveto(105.623,13.8875)(120.938,5.00039)(138.333,5.00039)
+    \curveto(155.728,5.00039)(171.043,13.8875)(180,27.3652)
+    \curveto(188.956,13.8875)(204.271,5.00039)(221.666,5.00039)
+    \curveto(239.063,5.00039)(254.376,13.8875)(263.333,27.3652)
+    \curveto(272.29,13.8875)(287.604,5.00039)(305,5.00039)
+    \curveto(332.614,5.00039)(355,27.3855)(355,55.0004)
+    \curveto(355,308.916)(256.027,386.69)(182.626,387.323)
+    \strokepath
+    % Left eye.
+    \moveto(145.986,260.364)
+    \curveto(145.986,251.535)(138.829,244.378)(130,244.378)
+    \curveto(121.171,244.378)(114.014,251.535)(114.014,260.364)
+    \curveto(114.014,269.193)(121.171,276.35)(130,276.35)
+    \curveto(138.829,276.35)(145.986,269.193)(145.986,260.364)
+    \fillpath
+    % Right eye.
+    \moveto(245.986,260.364)
+    \curveto(245.986,251.535)(238.829,244.378)(230,244.378)
+    \curveto(221.171,244.378)(214.014,251.535)(214.014,260.364)
+    \curveto(214.014,269.193)(221.171,276.35)(230,276.35)
+    \curveto(238.829,276.35)(245.986,269.193)(245.986,260.364)
+    \fillpath
+    % Smile.
+    \moveto(80,170.721)
+    \curveto(88.6328,163.148)(125.759,132.305)(181.887,133.003)
+    \curveto(235.64,133.671)(271.001,162.825)(280,170.721)
+    \strokepath
+  \end{picture}%
+  \endgroup
+}
+
+\newcommand*\smileghost@math[2]{%
+  \sbox\smileghost@measurebox{$#1 0$}%
+  \smileghost@raise=\ht\smileghost@measurebox
+  \divide\smileghost@raise by 10
+  \raise\smileghost@raise
+  \hbox{$\m@th#1\vcenter{\hbox{\smileghost@draw{#1}}}$}%
+}
+
+% An Op atom gives TeX's standard operator spacing.  \nolimits keeps
+% subscripts and superscripts beside this compact unary operator.  The
+% nucleus is raised by one tenth of the current zero height as an optical
+% correction after mathematical centering on the axis.
+\DeclareRobustCommand{\smileghost}{%
+  \ensuremath{%
+    \mathop{\mathpalette\smileghost@math{}}\nolimits
+  }%
+}
+
+\makeatother
+
+\endinput

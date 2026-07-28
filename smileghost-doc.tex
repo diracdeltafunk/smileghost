@@ -1,0 +1,109 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{booktabs}
+\usepackage[a4paper,margin=28mm]{geometry}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,
+  urlcolor=blue!45!black]{hyperref}
+\usepackage{smileghost}
+
+\newcommand*\pkg[1]{\textsf{#1}}
+\newcommand*\cs[1]{\texttt{\string#1}}
+
+\title{\Huge \(\smileghost\)\\[6pt]
+  The \pkg{smileghost} package}
+\author{Ben Spitz}
+\date{Version 1.0.0, 2026-07-27}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  The \pkg{smileghost} package provides a resolution-independent smiling ghost
+  symbol for use as a mathematical operator. It has correct operator spacing,
+  scales with the current math style, is optically positioned relative to the
+  math axis, and follows the surrounding color.
+\end{abstract}
+
+\section{Quick start}
+
+Load the package and use the command \cs\smileghost{}:
+
+\begin{verbatim}
+\usepackage{smileghost}
+...
+\(\smileghost T = S\)
+\end{verbatim}
+
+This produces: \(\smileghost T = S\).\par
+The command also works outside explicit math mode:
+\cs\smileghost{} produces \smileghost.
+
+\section{Typographic behavior}
+
+\cs\smileghost\ is an operator atom, implemented with
+\verb|\mathop...\nolimits|. TeX therefore inserts its normal thin operator
+space between the symbol and an ordinary operand. No manual \verb|\,| is
+needed.
+
+\begin{center}
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    Input                                  & Output                & Purpose                   \\
+    \midrule
+    \verb|\(\smileghost T\)|               & \(\smileghost T\)     & ordinary use              \\
+    \verb|\(A\smileghost T\)|              & \(A\smileghost T\)    & spacing on both sides     \\
+    \verb|\(\smileghost_T X\)|             & \(\smileghost_T X\)   & subscript beside operator \\
+    \verb|\(X^{\smileghost T}\)|           & \(X^{\smileghost T}\) & script-style scaling      \\
+    \verb|\(\color{violet}\smileghost T\)| &
+    \(\color{violet}\smileghost T\)        & surrounding color                                 \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+% The four standard math styles are shown below:
+% \[
+%   \displaystyle \smileghost T
+%   \qquad
+%   \textstyle \smileghost T
+%   \qquad
+%   X_{\scriptstyle\smileghost T}
+%   \qquad
+%   X_{\scriptscriptstyle\smileghost T}.
+% \]
+
+The command uses \verb|\nolimits| because it is intended as a compact unary
+operator. An explicit \verb|\limits| after the command can override this when
+limits above and below are desired.
+
+\section{Design and compatibility}
+
+The mark is drawn as a collection of vector paths by \pkg{pict2e}. The mark's total height is 1.4 times the height of a zero in the current math
+style. It is first centered mathematically on the math axis, then raised by
+0.1 times the height of a zero as an optical correction. Thus display and
+text styles share the normal full-size mark, while script and scriptscript
+styles use the corresponding smaller math fonts.
+
+The package requires LaTeX2e and \pkg{pict2e}.% It is tested with pdfLaTeX,
+%LuaLaTeX, XeLaTeX, and the traditional LaTeX-to-DVIPS workflow. It is also
+%compatible with \pkg{unicode-math}.
+
+\section{Accessibility}
+
+The smiling ghost has no dedicated Unicode code point, so the vector drawing
+does not become meaningful text when copied from a PDF and cannot supply its
+own spoken name to assistive technology. Authors should define the notation in
+nearby prose---for example, ``\(\smileghost T\) denotes the \emph{ghost} of \(T\)''---
+and should add suitable alternative text when their tagged-document workflow
+supports it.
+
+\section{License}
+
+Copyright \textcopyright\ 2026 Ben Spitz.
+
+This material is distributed under the LaTeX Project Public License,
+version 1.3c or later. The work has the LPPL maintenance status
+\texttt{maintained}; the Current Maintainer is Ben Spitz.
+
+\end{document}

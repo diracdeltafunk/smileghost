@@ -31,15 +31,11 @@ Build the documentation with:
 latexmk -pdf smileghost-doc.tex
 ```
 
-Run the regression tests and build a CTAN archive with:
+Build a CTAN archive with:
 
 ```sh
-l3build check
 l3build ctan
 ```
-
-Those two developer commands are intended for the source repository, which
-also contains `build.lua` and the `testfiles` directory.
 
 ## License and maintenance
 
